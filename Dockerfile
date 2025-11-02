@@ -2,13 +2,7 @@
 FROM runpod/worker-comfyui:5.5.0-base-cuda12.8.1
 
 # install custom nodes using comfy-cli
-RUN comfy-node-install --url https://github.com/cubiq/PuLID_ComfyUI
-RUN comfy-node-install --url https://github.com/Gourieff/ComfyUI-ReActor
-RUN comfy-node-install --url https://github.com/rgthree/rgthree-comfy
-RUN comfy-node-install --url https://github.com/kijai/ComfyUI-KJNodes
-RUN comfy-node-install --url https://github.com/Comfy-Org/ComfyUI-Manager
-RUN comfy-node-install --url https://github.com/WASasquatch/was-node-suite-comfyui
-RUN comfy-node-install --url https://github.com/crystian/ComfyUI-Crystools
+RUN comfy-node-install PuLID_ComfyUI ComfyUI-ReActor rgthree-comfy ComfyUI-KJNodes ComfyUI-Manager was-node-suite-comfyui ComfyUI-Crystools
 
 # download models using comfy-cli
 RUN comfy model download --url https://huggingface.co/datasets/Robin9527/LoRA/resolve/main/SDXL/ultraRealisticByStable_v20FP16.safetensors --relative-path models/checkpoints/SDXL --filename ultraRealisticByStable_v20FP16.safetensors

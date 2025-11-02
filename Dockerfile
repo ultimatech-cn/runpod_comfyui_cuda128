@@ -5,9 +5,11 @@ FROM runpod/worker-comfyui:5.5.0-base-cuda12.8.1
 RUN comfy-node-install PuLID_ComfyUI ComfyUI-ReActor rgthree-comfy ComfyUI-KJNodes ComfyUI-Manager was-node-suite-comfyui ComfyUI-Crystools
 
 # download all models using comfy-cli (merged into single RUN for better layer caching)
-RUN comfy model download --url https://huggingface.co/datasets/Robin9527/LoRA/resolve/main/SDXL/ultraRealisticByStable_v20FP16.safetensors --relative-path models/checkpoints/SDXL --filename ultraRealisticByStable_v20FP16.safetensors && \
-    comfy model download --url https://huggingface.co/Phr00t/WAN2.2-14B-Rapid-AllInOne/resolve/main/v10/wan2.2-i2v-rapid-aio-v10-nsfw.safetensors --relative-path models/checkpoints/Wan2.2 --filename wan2.2-i2v-rapid-aio-v10-nsfw.safetensors && \
-    comfy model download --url https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/clip_vision/clip_vision_h.safetensors --relative-path models/clip_vision/wan --filename clip_vision_h.safetensors && \
+RUN comfy model download --url https://huggingface.co/Phr00t/WAN2.2-14B-Rapid-AllInOne/resolve/main/v10/wan2.2-i2v-rapid-aio-v10-nsfw.safetensors --relative-path models/checkpoints/Wan2.2 --filename wan2.2-i2v-rapid-aio-v10-nsfw.safetensors
+
+RUN comfy model download --url https://huggingface.co/datasets/Robin9527/LoRA/resolve/main/SDXL/ultraRealisticByStable_v20FP16.safetensors --relative-path models/checkpoints/SDXL --filename ultraRealisticByStable_v20FP16.safetensors
+
+RUN comfy model download --url https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/clip_vision/clip_vision_h.safetensors --relative-path models/clip_vision/wan --filename clip_vision_h.safetensors && \
     comfy model download --url https://huggingface.co/huchenlei/ipadapter_pulid/resolve/main/ip-adapter_pulid_sdxl_fp16.safetensors --relative-path models/pulid --filename ip-adapter_pulid_sdxl_fp16.safetensors && \
     comfy model download --url https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/inswapper_128.onnx --relative-path models/insightface --filename inswapper_128.onnx && \
     comfy model download --url https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/reswapper_128.onnx --relative-path models/reswapper --filename reswapper_128.onnx && \

@@ -1,5 +1,5 @@
 {
-  "title": "ComfyUI",
+  "title": "ComfyUI_CUDA12.8",
   "description": "Custom ComfyUI environment with SDXL and Wan2.2 models, including PuLID, ReActor, and multiple LoRAs",
   "type": "serverless",
   "category": "image",

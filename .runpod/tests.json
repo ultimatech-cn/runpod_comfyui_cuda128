@@ -1,0 +1,547 @@
+{
+  "tests": [
+    {
+      "name": "test_sdxl_i2i",
+      "input": {
+        "images": [
+          {
+            "name": "test_img.jpg",
+            "image": "https://pic.imgdd.cc/item/69071860c1e67097311264a1.jpg"
+          }
+        ],
+        "workflow": {
+          "3": {
+            "inputs": {
+              "seed": 814583843642114,
+              "steps": 8,
+              "cfg": 1.1,
+              "sampler_name": "lcm",
+              "scheduler": "exponential",
+              "denoise": 1,
+              "model": ["111", 0],
+              "positive": ["22", 0],
+              "negative": ["23", 0],
+              "latent_image": ["46", 0]
+            },
+            "class_type": "KSampler",
+            "_meta": {
+              "title": "KSampler"
+            }
+          },
+          "4": {
+            "inputs": {
+              "ckpt_name": "SDXL\\ultraRealisticByStable_v20FP16.safetensors"
+            },
+            "class_type": "CheckpointLoaderSimple",
+            "_meta": {
+              "title": "Load Checkpoint"
+            }
+          },
+          "8": {
+            "inputs": {
+              "samples": ["3", 0],
+              "vae": ["4", 2]
+            },
+            "class_type": "VAEDecode",
+            "_meta": {
+              "title": "VAE Decode"
+            }
+          },
+          "12": {
+            "inputs": {
+              "image": "test_img.jpg"
+            },
+            "class_type": "LoadImage",
+            "_meta": {
+              "title": "Load Image"
+            }
+          },
+          "22": {
+            "inputs": {
+              "text": ["79", 0],
+              "clip": ["111", 1]
+            },
+            "class_type": "CLIPTextEncode",
+            "_meta": {
+              "title": "CLIP Text Encode (Prompt)"
+            }
+          },
+          "23": {
+            "inputs": {
+              "text": "flaws in the eyes, flaws in the face, flaws, lowres, non-HDRi, low quality, worst quality,artifacts noise, text, watermark, glitch, deformed, mutated, ugly, disfigured, hands, low resolution, partially rendered objects,  deformed or partially rendered eyes, deformed, deformed eyeballs, cross-eyed,blurry",
+              "clip": ["111", 1]
+            },
+            "class_type": "CLIPTextEncode",
+            "_meta": {
+              "title": "CLIP Text Encode (Prompt)"
+            }
+          },
+          "46": {
+            "inputs": {
+              "dimensions": " 832 x 1216  (portrait)",
+              "clip_scale": 1,
+              "batch_size": 1
+            },
+            "class_type": "SDXL Empty Latent Image (rgthree)",
+            "_meta": {
+              "title": "SDXL Empty Latent Image (rgthree)"
+            }
+          },
+          "79": {
+            "inputs": {
+              "delimiter": ", ",
+              "clean_whitespace": "true",
+              "text_a": ["113", 0],
+              "text_b": ["76:81", 0]
+            },
+            "class_type": "Text Concatenate",
+            "_meta": {
+              "title": "Text Concatenate"
+            }
+          },
+          "111": {
+            "inputs": {
+              "lora_name": "SDXL\\subtle-analsex-xl3.safetensors",
+              "strength_model": 0.8,
+              "strength_clip": 0.8,
+              "model": ["33", 0],
+              "clip": ["4", 1]
+            },
+            "class_type": "LoraLoader",
+            "_meta": {
+              "title": "anal?"
+            }
+          },
+          "112": {
+            "inputs": {
+              "filename_prefix": "ComfyUI",
+              "images": ["108", 0]
+            },
+            "class_type": "SaveImage",
+            "_meta": {
+              "title": "Save Image"
+            }
+          },
+          "113": {
+            "inputs": {
+              "String": "A simple test prompt for SDXL image generation."
+            },
+            "class_type": "String",
+            "_meta": {
+              "title": "String"
+            }
+          },
+          "16": {
+            "inputs": {
+              "pulid_file": "ip-adapter_pulid_sdxl_fp16.safetensors"
+            },
+            "class_type": "PulidModelLoader",
+            "_meta": {
+              "title": "Load PuLID Model"
+            }
+          },
+          "19": {
+            "inputs": {},
+            "class_type": "PulidEvaClipLoader",
+            "_meta": {
+              "title": "Load Eva Clip (PuLID)"
+            }
+          },
+          "33": {
+            "inputs": {
+              "method": "fidelity",
+              "weight": 0.65,
+              "start_at": 0,
+              "end_at": 0.9,
+              "model": ["44", 0],
+              "pulid": ["16", 0],
+              "eva_clip": ["19", 0],
+              "face_analysis": ["45", 0],
+              "image": ["12", 0]
+            },
+            "class_type": "ApplyPulid",
+            "_meta": {
+              "title": "Apply PuLID"
+            }
+          },
+          "44": {
+            "inputs": {
+              "lora_name": "SDXL\\LCMV2-PONYplus-PAseer.safetensors",
+              "strength_model": 1,
+              "model": ["4", 0]
+            },
+            "class_type": "LoraLoaderModelOnly",
+            "_meta": {
+              "title": "LoraLoaderModelOnly"
+            }
+          },
+          "45": {
+            "inputs": {
+              "provider": "CPU"
+            },
+            "class_type": "PulidInsightFaceLoader",
+            "_meta": {
+              "title": "Load InsightFace (PuLID)"
+            }
+          },
+          "108": {
+            "inputs": {
+              "boolean": false,
+              "on_true": ["8", 0],
+              "on_false": ["99", 0]
+            },
+            "class_type": "Switch any [Crystools]",
+            "_meta": {
+              "title": "face involved ?"
+            }
+          },
+          "99": {
+            "inputs": {
+              "enabled": false,
+              "swap_model": "inswapper_128.onnx",
+              "facedetection": "retinaface_resnet50",
+              "face_restore_model": "GPEN-BFR-512.onnx",
+              "face_restore_visibility": 1,
+              "codeformer_weight": 0.5,
+              "detect_gender_input": "no",
+              "detect_gender_source": "no",
+              "input_faces_index": "0",
+              "source_faces_index": "0",
+              "console_log_level": 1,
+              "input_image": ["8", 0],
+              "source_image": ["12", 0]
+            },
+            "class_type": "ReActorFaceSwap",
+            "_meta": {
+              "title": "ReActor 🌌 Fast Face Swap"
+            }
+          },
+          "76:81": {
+            "inputs": {
+              "delimiter": ", ",
+              "clean_whitespace": "true",
+              "text_a": ["76:80", 0],
+              "text_b": ["76:74", 0],
+              "text_c": ["76:83", 0]
+            },
+            "class_type": "Text Concatenate",
+            "_meta": {
+              "title": "Text Concatenate"
+            }
+          },
+          "76:80": {
+            "inputs": {
+              "text_0": "test image",
+              "text": ["76:79", 0]
+            },
+            "class_type": "ShowText|pysssss",
+            "_meta": {
+              "title": "Show Text 🐍"
+            }
+          },
+          "76:79": {
+            "inputs": {
+              "delimiter": " ",
+              "clean_whitespace": "true",
+              "text_a": ["76:77", 0],
+              "text_b": ["76:78", 0]
+            },
+            "class_type": "Text Concatenate",
+            "_meta": {
+              "title": "Text Concatenate"
+            }
+          },
+          "76:77": {
+            "inputs": {
+              "mode": "interrogate",
+              "question": "age",
+              "min_length": 1,
+              "max_length": 1024,
+              "num_beams": 5,
+              "no_repeat_ngram_size": 3,
+              "early_stopping": false,
+              "images": ["12", 0],
+              "blip_model": ["54", 0]
+            },
+            "class_type": "BLIP Analyze Image",
+            "_meta": {
+              "title": "BLIP Analyze Image"
+            }
+          },
+          "76:78": {
+            "inputs": {
+              "text": "years old "
+            },
+            "class_type": "Text Multiline",
+            "_meta": {
+              "title": "Text Multiline"
+            }
+          },
+          "76:74": {
+            "inputs": {
+              "delimiter": ", ",
+              "clean_whitespace": "true",
+              "text_a": ["76:58", 0],
+              "text_b": ["76:61", 0],
+              "text_c": ["76:67", 0],
+              "text_d": ["76:73", 0]
+            },
+            "class_type": "Text Concatenate",
+            "_meta": {
+              "title": "Text Concatenate"
+            }
+          },
+          "76:58": {
+            "inputs": {
+              "delimiter": " ",
+              "clean_whitespace": "true",
+              "text_a": ["76:53", 0],
+              "text_b": ["76:59", 0]
+            },
+            "class_type": "Text Concatenate",
+            "_meta": {
+              "title": "Text Concatenate"
+            }
+          },
+          "76:53": {
+            "inputs": {
+              "mode": "interrogate",
+              "question": "Breast size",
+              "min_length": 1,
+              "max_length": 1024,
+              "num_beams": 5,
+              "no_repeat_ngram_size": 3,
+              "early_stopping": false,
+              "images": ["12", 0],
+              "blip_model": ["54", 0]
+            },
+            "class_type": "BLIP Analyze Image",
+            "_meta": {
+              "title": "BLIP Analyze Image"
+            }
+          },
+          "76:59": {
+            "inputs": {
+              "text": "breast"
+            },
+            "class_type": "Text Multiline",
+            "_meta": {
+              "title": "Text Multiline"
+            }
+          },
+          "76:61": {
+            "inputs": {
+              "delimiter": " ",
+              "clean_whitespace": "true",
+              "text_a": ["76:60", 0],
+              "text_b": ["76:64", 0],
+              "text_c": ["76:65", 0],
+              "text_d": ["76:62", 0]
+            },
+            "class_type": "Text Concatenate",
+            "_meta": {
+              "title": "Text Concatenate"
+            }
+          },
+          "76:60": {
+            "inputs": {
+              "mode": "interrogate",
+              "question": "Hair color",
+              "min_length": 1,
+              "max_length": 1024,
+              "num_beams": 5,
+              "no_repeat_ngram_size": 4,
+              "early_stopping": false,
+              "images": ["12", 0],
+              "blip_model": ["54", 0]
+            },
+            "class_type": "BLIP Analyze Image",
+            "_meta": {
+              "title": "BLIP Analyze Image"
+            }
+          },
+          "76:64": {
+            "inputs": {
+              "mode": "interrogate",
+              "question": "Hair style",
+              "min_length": 1,
+              "max_length": 1024,
+              "num_beams": 5,
+              "no_repeat_ngram_size": 3,
+              "early_stopping": false,
+              "images": ["12", 0],
+              "blip_model": ["54", 0]
+            },
+            "class_type": "BLIP Analyze Image",
+            "_meta": {
+              "title": "BLIP Analyze Image"
+            }
+          },
+          "76:62": {
+            "inputs": {
+              "text": "hair "
+            },
+            "class_type": "Text Multiline",
+            "_meta": {
+              "title": "Text Multiline"
+            }
+          },
+          "76:65": {
+            "inputs": {
+              "mode": "interrogate",
+              "question": "Hair type",
+              "min_length": 1,
+              "max_length": 1024,
+              "num_beams": 5,
+              "no_repeat_ngram_size": 3,
+              "early_stopping": false,
+              "images": ["12", 0],
+              "blip_model": ["54", 0]
+            },
+            "class_type": "BLIP Analyze Image",
+            "_meta": {
+              "title": "BLIP Analyze Image"
+            }
+          },
+          "76:67": {
+            "inputs": {
+              "delimiter": " ",
+              "clean_whitespace": "true",
+              "text_a": ["76:66", 0],
+              "text_b": ["76:68", 0]
+            },
+            "class_type": "Text Concatenate",
+            "_meta": {
+              "title": "Text Concatenate"
+            }
+          },
+          "76:66": {
+            "inputs": {
+              "mode": "interrogate",
+              "question": "eye color",
+              "min_length": 1,
+              "max_length": 1024,
+              "num_beams": 5,
+              "no_repeat_ngram_size": 3,
+              "early_stopping": false,
+              "images": ["12", 0],
+              "blip_model": ["54", 0]
+            },
+            "class_type": "BLIP Analyze Image",
+            "_meta": {
+              "title": "BLIP Analyze Image"
+            }
+          },
+          "76:68": {
+            "inputs": {
+              "text": "eyes"
+            },
+            "class_type": "Text Multiline",
+            "_meta": {
+              "title": "Text Multiline"
+            }
+          },
+          "76:73": {
+            "inputs": {
+              "delimiter": " ",
+              "clean_whitespace": "true",
+              "text_a": ["76:71", 0],
+              "text_b": ["76:72", 0]
+            },
+            "class_type": "Text Concatenate",
+            "_meta": {
+              "title": "Text Concatenate"
+            }
+          },
+          "76:71": {
+            "inputs": {
+              "mode": "interrogate",
+              "question": "skin color",
+              "min_length": 1,
+              "max_length": 1024,
+              "num_beams": 5,
+              "no_repeat_ngram_size": 3,
+              "early_stopping": false,
+              "images": ["12", 0],
+              "blip_model": ["54", 0]
+            },
+            "class_type": "BLIP Analyze Image",
+            "_meta": {
+              "title": "BLIP Analyze Image"
+            }
+          },
+          "76:72": {
+            "inputs": {
+              "text": "skin"
+            },
+            "class_type": "Text Multiline",
+            "_meta": {
+              "title": "Text Multiline"
+            }
+          },
+          "76:83": {
+            "inputs": {
+              "delimiter": " ",
+              "clean_whitespace": "true",
+              "text_a": ["76:84", 0],
+              "text_b": ["76:82", 0]
+            },
+            "class_type": "Text Concatenate",
+            "_meta": {
+              "title": "Text Concatenate"
+            }
+          },
+          "76:84": {
+            "inputs": {
+              "mode": "interrogate",
+              "question": "is she wearing glasses",
+              "min_length": 1,
+              "max_length": 1024,
+              "num_beams": 5,
+              "no_repeat_ngram_size": 3,
+              "early_stopping": false,
+              "images": ["12", 0],
+              "blip_model": ["54", 0]
+            },
+            "class_type": "BLIP Analyze Image",
+            "_meta": {
+              "title": "BLIP Analyze Image"
+            }
+          },
+          "76:82": {
+            "inputs": {
+              "text": "glasses"
+            },
+            "class_type": "Text Multiline",
+            "_meta": {
+              "title": "Text Multiline"
+            }
+          },
+          "54": {
+            "inputs": {
+              "blip_model": "Salesforce/blip-image-captioning-base",
+              "vqa_model_id": "Salesforce/blip-vqa-base",
+              "device": "cuda"
+            },
+            "class_type": "BLIP Model Loader",
+            "_meta": {
+              "title": "BLIP Model Loader"
+            }
+          }
+        }
+      },
+      "timeout": 600000
+    }
+  ],
+  "config": {
+    "gpuTypeId": "NVIDIA GeForce RTX 4090",
+    "gpuCount": 1,
+    "env": [
+      {
+        "key": "REFRESH_WORKER",
+        "value": "false"
+      }
+    ],
+    "allowedCudaVersions": ["12.8", "12.7", "12.6"]
+  }
+}

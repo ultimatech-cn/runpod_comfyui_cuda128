@@ -1,11 +1,12 @@
-# start from a clean base image (replace <version> with the desired [release](https://github.com/runpod-workers/worker-comfyui/releases))
+# Dockerfile 示例：不覆盖 handler.py 的情况
+# 
+# 如果您不需要自定义 handler.py，可以使用这个配置
+# 这样会自动获得基础镜像的所有更新
+
 FROM runpod/worker-comfyui:5.5.0-base-cuda12.8.1
 
-# Override handler.py with custom version that includes:
-# - URL image download support (convert_url_to_base64)
-# - Windows path normalization (normalize_workflow_paths)
-# - Enhanced image upload functionality
-COPY handler.py /handler.py
+# ❌ 不覆盖 handler.py，使用基础镜像的标准版本
+# COPY handler.py /handler.py
 
 # install custom nodes using comfy-cli
 RUN comfy-node-install pulid_comfyui comfyui-reactor rgthree-comfy comfyui-manager was-node-suite-comfyui ComfyUI-Crystools comfyui-kjnodes comfyui-videohelpersuite
@@ -48,5 +49,4 @@ RUN comfy model download --url https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_
     comfy model download --url https://huggingface.co/datasets/Robin9527/LoRA/resolve/main/Wan22/wan_shoejob_footjob_14B_v10_e15.safetensors --relative-path models/loras/Wan2.2 --filename wan_shoejob_footjob_14B_v10_e15.safetensors && \
     comfy model download --url https://huggingface.co/datasets/Robin9527/LoRA/resolve/main/Wan22/zurimix-high-i2v.safetensors --relative-path models/loras/Wan2.2 --filename zurimix-high-i2v.safetensors && \
     comfy model download --url https://huggingface.co/datasets/Robin9527/LoRA/resolve/main/Wan22/zurimix-low-i2v.safetensors --relative-path models/loras/Wan2.2 --filename zurimix-low-i2v.safetensors
-
 

@@ -7,6 +7,20 @@ export LD_PRELOAD="${TCMALLOC}"
 # Ensure ComfyUI-Manager runs in offline network mode inside the container
 comfy-manager-set-mode offline || echo "worker-comfyui - Could not set ComfyUI-Manager network_mode" >&2
 
+# Download models at startup (if enabled via environment variable)
+# This allows models to be downloaded when container starts, not during build
+# Set DOWNLOAD_MODELS_ON_STARTUP=false to skip model download
+if [ "${DOWNLOAD_MODELS_ON_STARTUP:-true}" == "true" ]; then
+    echo "worker-comfyui: Downloading models at startup..."
+    if [ -f "/download-models.sh" ]; then
+        bash /download-models.sh
+    else
+        echo "worker-comfyui - Warning: download-models.sh not found, skipping model download"
+    fi
+else
+    echo "worker-comfyui: Skipping model download (DOWNLOAD_MODELS_ON_STARTUP=false)"
+fi
+
 echo "worker-comfyui: Starting ComfyUI"
 
 # Allow operators to tweak verbosity; default is DEBUG.

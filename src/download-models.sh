@@ -38,7 +38,7 @@ download_model() {
     local retries=3
     local count=0
     while [ $count -lt $retries ]; do
-        if wget -q --show-progress -O "$output_path" "$url"; then
+        if wget -q -O "$output_path" "$url"; then
             echo "✓ Successfully downloaded: $filename"
             return 0
         else
@@ -70,7 +70,7 @@ download_and_extract_zip() {
     
     echo "Downloading and extracting: $(basename $url)"
     
-    if wget -q --show-progress -O "$zip_file" "$url"; then
+    if wget -q -O "$zip_file" "$url"; then
         unzip -q -o "$zip_file" -d "$extract_dir" && \
         rm -f "$zip_file" && \
         echo "✓ Successfully extracted: $(basename $extract_dir)" && \
